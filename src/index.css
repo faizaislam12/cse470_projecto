@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+ @plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+  themes: light --default;
+ }
+
+body{
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* ==========================================================
+   GreenLoop dark-glass design system
+   Used across the authenticated app (dashboard, auth, profile,
+   campaigns, notifications) — the public marketing Home page
+   keeps its own bright hero styling.
+   ========================================================== */
+
+.eco-dark {
+  --eco-bg-from: #031a12;
+  --eco-bg-via: #062018;
+  --eco-bg-to: #010b08;
+  --eco-glass-bg: rgba(255, 255, 255, 0.06);
+  --eco-glass-border: rgba(52, 211, 153, 0.18);
+  --eco-green-glow: rgba(16, 185, 129, 0.35);
+  background: radial-gradient(circle at 15% -10%, rgba(16, 185, 129, 0.16), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(5, 150, 105, 0.12), transparent 40%),
+    linear-gradient(160deg, var(--eco-bg-from), var(--eco-bg-via) 55%, var(--eco-bg-to));
+  color: #e9fdf5;
+  /* No min-height here on purpose: this class is also applied to the fixed
+     navbar and footer, which must size to their own content, not the
+     viewport. Full-page wrappers add `min-h-screen` via Tailwind instead. */
+}
+
+.eco-glass {
+  background: var(--eco-glass-bg);
+  border: 1px solid var(--eco-glass-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.eco-glass-strong {
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(16, 185, 129, 0.08);
+}
+
+.eco-gradient-text {
+  background: linear-gradient(90deg, #6ee7b7, #34d399 45%, #a7f3d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eco-gradient-btn {
+  background: linear-gradient(135deg, #10b981, #059669 60%, #047857);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.eco-gradient-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5);
+  filter: brightness(1.08);
+}
+
+.eco-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e9fdf5;
+}
+
+.eco-input::placeholder {
+  color: rgba(233, 253, 245, 0.4);
+}
+
+.eco-input:focus {
+  outline: none;
+  border-color: rgba(52, 211, 153, 0.55);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.eco-muted {
+  color: rgba(233, 253, 245, 0.6);
+}
+
+.eco-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.eco-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(52, 211, 153, 0.3);
+  border-radius: 999px;
+}
+
+@keyframes eco-drift {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(var(--drift-x, 20px), var(--drift-y, -30px)) rotate(var(--drift-r, 25deg));
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes eco-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.eco-fade-up {
+  animation: eco-fade-up 0.5s ease both;
+}
+
+.eco-table {
+  color: rgba(233, 253, 245, 0.85);
+}
+
+.eco-table thead tr {
+  color: rgba(110, 231, 183, 0.9);
+  border-bottom: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.eco-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.eco-table tbody tr:hover {
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.eco-table.table-zebra tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* daisyUI form controls, restyled for the dark glass surfaces */
+.eco-dark .input,
+.eco-dark .textarea,
+.eco-dark .select {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #e9fdf5;
+}
+
+.eco-dark .input::placeholder,
+.eco-dark .textarea::placeholder {
+  color: rgba(233, 253, 245, 0.35);
+}
+
+.eco-dark .input:focus,
+.eco-dark .textarea:focus,
+.eco-dark .select:focus {
+  border-color: rgba(52, 211, 153, 0.55);
+  outline-color: rgba(52, 211, 153, 0.3);
+}
+
+.eco-dark .select option {
+  color: #0f172a;
+}
+
+.eco-dark .label-text {
+  color: rgba(233, 253, 245, 0.75);
+}
+
+.eco-dark .modal-box {
+  background: #06231a;
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  color: #e9fdf5;
+}
+
+.eco-dark .divider {
+  color: rgba(233, 253, 245, 0.4);
+}
+
+.eco-dark .tabs-boxed {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.eco-dark .tab {
+  color: rgba(233, 253, 245, 0.6);
+}
+
+.eco-dark .tab.tab-active {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #06231a;
+  font-weight: 600;
+}
