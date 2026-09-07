@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
+import Modal from '../components/Modal';
 
 const STATUS_COLORS = {
   Pending: '#f59e0b',
@@ -16,6 +17,10 @@ const Transactions = () => {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState('');
   const [actionId, setActionId] = useState(null);
+  const [rateTx, setRateTx] = useState(null);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+  const [ratedIds, setRatedIds] = useState([]);
 
   useEffect(() => {
     fetchTransactions();
@@ -30,6 +35,18 @@ const Transactions = () => {
       setMsg('Failed to load history.');
     }
     setLoading(false);
+  };
+
+  const submitFeedback = async () => {
+    try {
+      await api.post('/feedback', { transactionId: rateTx._id, rating, comment });
+      setMsg('Thanks! Your rating was submitted.');
+      setRatedIds([...ratedIds, rateTx._id]);
+      setRateTx(null);
+      setComment('');
+    } catch (err) {
+      setMsg(err.response?.data?.message || 'Failed to submit rating');
+    }
   };
 
   const updateStatus = async (id, status) => {
@@ -105,12 +122,32 @@ const Transactions = () => {
                       </button>
                     </div>
                   )}
+                  {tx.status === 'Completed' && !ratedIds.includes(tx._id) && (
+                    <button onClick={() => setRateTx(tx)} style={{ marginTop: 12, width: '100%', background: '#7c3aed' }}>
+                      Rate this pickup
+                    </button>
+                  )}
+                  {tx.status === 'Completed' && ratedIds.includes(tx._id) && (
+                    <p style={{ fontSize: 12, color: '#16a34a', marginTop: 10, textAlign: 'center' }}>✔ Rated</p>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
       )}
+
+      <Modal isOpen={!!rateTx} onClose={() => setRateTx(null)} title="Rate this pickup">
+        <p style={{ color: '#666', marginBottom: 12 }}>How was the collection experience with {rateTx?.buyer?._id === user?.id ? rateTx?.seller?.name : rateTx?.buyer?.name}?</p>
+        <div style={{ display: 'flex', gap: 4, fontSize: 28, marginBottom: 12 }}>
+          {[1,2,3,4,5].map(star => (
+            <button key={star} onClick={() => setRating(star)} style={{ background: 'none', boxShadow: 'none', padding: 0, margin: 0, fontSize: 28, color: star <= rating ? '#f59e0b' : '#d1d5db' }}>★</button>
+          ))}
+        </div>
+        <label>Comment</label>
+        <textarea rows={3} value={comment} onChange={e => setComment(e.target.value)} placeholder="e.g. Pickup was on time." style={{ resize: 'none', padding: '11px 13px', border: '1px solid #d6dbd9', borderRadius: 8, fontSize: 14, width: '100%', marginBottom: 16 }} />
+        <button onClick={submitFeedback}>Submit Rating</button>
+      </Modal>
     </div>
   );
 };

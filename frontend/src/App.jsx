@@ -23,6 +23,18 @@ import ImpactDashboard from './pages/ImpactDashboard';
 import Goals from './pages/Goals';
 import Certificates from './pages/Certificates';
 import CertificateView from './pages/CertificateView';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminAnalytics from './pages/AdminAnalytics';
+import UserManagement from './pages/UserManagement';
+import BusinessAccounts from './pages/BusinessAccounts';
+import Campaigns from './pages/Campaigns';
+import CampaignsPublic from './pages/CampaignsPublic';
+import CollectorPerformance from './pages/CollectorPerformance';
+import NotificationCenter from './pages/NotificationCenter';
+import MyNotifications from './pages/MyNotifications';
+import AddBusiness from './pages/AddBusiness';
+import BusinessDashboard from './pages/BusinessDashboard';
+import MyPerformance from './pages/MyPerformance';
 
 const RedirectIfLoggedIn = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -59,10 +71,26 @@ function App() {
             <Route path="/goals" element={<Goals />} />
             <Route path="/certificates" element={<Certificates />} />
             <Route path="/certificates/:id" element={<CertificateView />} />
+            <Route path="/campaigns" element={<CampaignsPublic />} />
+            <Route path="/notifications" element={<MyNotifications />} />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+            <Route path="/user-management" element={<UserManagement />} />
+            <Route path="/business-accounts" element={<BusinessAccounts />} />
+            <Route path="/campaign-management" element={<Campaigns />} />
+            <Route path="/collector-performance" element={<CollectorPerformance />} />
+            <Route path="/notification-center" element={<NotificationCenter />} />
+            <Route path="/admin-analysis" element={<AdminAnalytics />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/categories" element={<AdminCategories />} />
             <Route path="/admin/rewards" element={<AdminRewards />} />
+          </Route>
+          <Route element={<ProtectedRoute allowedRoles={['business']} />}>
+            <Route path="/business/dashboard" element={<BusinessDashboard />} />
+            <Route path="/business/profile" element={<AddBusiness />} />
+          </Route>
+          <Route element={<ProtectedRoute allowedRoles={['collector']} />}>
+            <Route path="/collector/performance" element={<MyPerformance />} />
           </Route>
         </Routes>
       </AuthProvider>

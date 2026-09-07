@@ -24,6 +24,8 @@ const Navbar = () => {
           <NavLink to="/goals" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Goals</NavLink>
           <NavLink to="/certificates" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Certificates</NavLink>
           <NavLink to="/material-guide" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Material Guide</NavLink>
+          <NavLink to="/campaigns" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Campaigns</NavLink>
+          <NavLink to="/notifications" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Notices</NavLink>
           {['household','business','admin'].includes(user.role) && (
             <NavLink to="/my-listings" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>My Listings</NavLink>
           )}
@@ -32,10 +34,19 @@ const Navbar = () => {
           )}
           <NavLink to="/my-pickups" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>My Pickups</NavLink>
           {user.role === 'admin' && (
+            <NavLink to="/admin" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Admin</NavLink>
+          )}
+          {user.role === 'admin' && (
             <NavLink to="/admin/categories" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Categories</NavLink>
           )}
           {user.role === 'admin' && (
             <NavLink to="/admin/rewards" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Rewards Mgmt</NavLink>
+          )}
+          {user.role === 'business' && (
+            <NavLink to="/business/dashboard" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Business</NavLink>
+          )}
+          {user.role === 'collector' && (
+            <NavLink to="/collector/performance" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>My Performance</NavLink>
           )}
         </div>
         <div className="navbar-right">

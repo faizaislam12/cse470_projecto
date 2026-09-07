@@ -64,6 +64,13 @@ app.use('/api/impact', require('./routes/impactRoutes'));
 app.use('/api/goals', require('./routes/goalRoutes'));
 app.use('/api/certificates', require('./routes/certificateRoutes'));
 
+// --- Member 4 (muqit) stack: businesses, campaigns, notifications, analytics ---
+app.use('/api/businesses', require('./routes/businessRoutes'));
+app.use('/api/campaigns', require('./routes/campaignRoutes'));
+app.use('/api/notifications', require('./routes/notificationRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/collectors', require('./routes/collectorRoutes'));
+
 app.use(notFound);
 app.use(errorHandler);
 

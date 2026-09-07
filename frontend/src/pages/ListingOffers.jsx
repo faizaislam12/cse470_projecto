@@ -13,6 +13,8 @@ const ListingOffers = () => {
   const [counterPrice, setCounterPrice] = useState('');
   const [counterMessage, setCounterMessage] = useState('');
   const [msg, setMsg] = useState('');
+  const [showScheduleModal, setShowScheduleModal] = useState(null);
+  const [scheduleForm, setScheduleForm] = useState({ scheduledDate: '', timeSlot: 'morning', address: '', contactPhone: '', specialInstructions: '' });
 
   const fetchData = async () => {
     try {
@@ -51,6 +53,17 @@ const ListingOffers = () => {
       setCounterMessage('');
       fetchData();
     } catch (err) { setMsg(err.response?.data?.message || 'Failed to send counter offer'); }
+  };
+
+  const handleSchedule = async (e) => {
+    e.preventDefault();
+    try {
+      await api.post('/pickups', { offerId: showScheduleModal, ...scheduleForm });
+      setMsg('Pickup scheduled! Track it under My Pickups.');
+      setShowScheduleModal(null);
+      setScheduleForm({ scheduledDate: '', timeSlot: 'morning', address: '', contactPhone: '', specialInstructions: '' });
+      fetchData();
+    } catch (err) { setMsg(err.response?.data?.message || 'Failed to schedule pickup'); }
   };
 
   if (loading) return <div className="spinner-center"><div className="spinner-lg"></div></div>;
@@ -100,6 +113,11 @@ const ListingOffers = () => {
                   <button onClick={() => { setShowCounterModal(offer._id); setCounterPrice(offer.offerPrice || listing.price || ''); }} style={{ background: '#7c3aed' }}>Counter Offer</button>
                 </div>
               )}
+              {offer.status === 'accepted' && (
+                <div style={{ marginTop: 12 }}>
+                  <button onClick={() => setShowScheduleModal(offer._id)} style={{ background: '#0284c7' }}>Schedule Pickup</button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -112,6 +130,26 @@ const ListingOffers = () => {
           <label>Message</label>
           <textarea rows={3} value={counterMessage} onChange={e => setCounterMessage(e.target.value)} placeholder="Explain your counter..." style={{ resize: 'none', padding: '11px 13px', border: '1px solid #d6dbd9', borderRadius: 8, fontSize: 14, width: '100%', marginBottom: 16 }} />
           <button type="submit">Send Counter</button>
+        </form>
+      </Modal>
+
+      <Modal isOpen={!!showScheduleModal} onClose={() => setShowScheduleModal(null)} title="Schedule Pickup">
+        <form onSubmit={handleSchedule}>
+          <label>Date</label>
+          <input type="date" required value={scheduleForm.scheduledDate} min={new Date().toISOString().split('T')[0]} onChange={e => setScheduleForm({ ...scheduleForm, scheduledDate: e.target.value })} style={{ marginBottom: 12 }} />
+          <label>Time Slot</label>
+          <select value={scheduleForm.timeSlot} onChange={e => setScheduleForm({ ...scheduleForm, timeSlot: e.target.value })} style={{ marginBottom: 12 }}>
+            <option value="morning">Morning (8 AM - 12 PM)</option>
+            <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
+            <option value="evening">Evening (5 PM - 8 PM)</option>
+          </select>
+          <label>Address</label>
+          <input required value={scheduleForm.address} onChange={e => setScheduleForm({ ...scheduleForm, address: e.target.value })} placeholder="Pickup address" style={{ marginBottom: 12 }} />
+          <label>Contact Phone</label>
+          <input required value={scheduleForm.contactPhone} onChange={e => setScheduleForm({ ...scheduleForm, contactPhone: e.target.value })} placeholder="Phone number" style={{ marginBottom: 12 }} />
+          <label>Special Instructions</label>
+          <textarea rows={2} value={scheduleForm.specialInstructions} onChange={e => setScheduleForm({ ...scheduleForm, specialInstructions: e.target.value })} style={{ resize: 'none', padding: '11px 13px', border: '1px solid #d6dbd9', borderRadius: 8, fontSize: 14, width: '100%', marginBottom: 16 }} />
+          <button type="submit">Schedule</button>
         </form>
       </Modal>
     </div>

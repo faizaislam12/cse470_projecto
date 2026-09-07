@@ -1,6 +1,8 @@
 const Pickup = require('../models/Pickup');
 const Offer = require('../models/Offer');
 const Listing = require('../models/Listing');
+const Transaction = require('../models/Transaction');
+const User = require('../models/User');
 
 const ALLOWED_TRANSITIONS = {
   scheduled: ['confirmed', 'cancelled'],
@@ -139,6 +141,39 @@ exports.updatePickupStatus = async (req, res) => {
 
     if (status === 'completed') {
       pickup.completedAt = new Date();
+
+      const listing = await Listing.findById(pickup.listing).populate('category');
+      const existingTx = await Transaction.findOne({ listing: pickup.listing, status: 'Completed' });
+
+      if (listing && !existingTx) {
+        const offer = pickup.acceptedOffer ? await Offer.findById(pickup.acceptedOffer) : null;
+        const points = Math.round((listing.category?.defaultPointsPerKg || 10) * listing.weight);
+        const amount = offer?.offerPrice || listing.price || 0;
+
+        await Transaction.create({
+          listing: listing._id,
+          seller: pickup.household,
+          buyer: pickup.collector,
+          category: listing.category?._id,
+          weight: listing.weight,
+          unit: listing.unit,
+          totalAmount: amount,
+          offeredAmount: amount,
+          pointsEarned: points,
+          status: 'Completed',
+          scheduledDate: pickup.scheduledDate,
+          history: [{ action: 'Completed', actor: req.user._id, amount, date: new Date() }],
+          transactionDate: new Date(),
+        });
+
+        const [seller, buyer] = await Promise.all([
+          User.findById(pickup.household),
+          User.findById(pickup.collector),
+        ]);
+        if (seller) { seller.ecoPoints = (seller.ecoPoints || 0) + points; await seller.save(); }
+        if (buyer) { buyer.ecoPoints = (buyer.ecoPoints || 0) + points; await buyer.save(); }
+      }
+
       await Listing.findByIdAndUpdate(pickup.listing, { status: 'Completed' });
     }
     if (status === 'cancelled') {
