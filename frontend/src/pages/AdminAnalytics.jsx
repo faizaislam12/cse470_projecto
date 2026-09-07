@@ -25,7 +25,6 @@ const AdminAnalytics = () => {
   const maxTrend = Math.max(1, ...(data?.monthlyTrend || []).map((m) => m.transactions));
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Platform Analytics</span></h1><p className="subtitle">Trends and performance across GreenLoop.</p></div>
@@ -107,7 +106,6 @@ const AdminAnalytics = () => {
           </div>
         </>
       ) : <p className="eco-muted">Could not load analytics.</p>}
-    </div>
     </div>
   );
 };

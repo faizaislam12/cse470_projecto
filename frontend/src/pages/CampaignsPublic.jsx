@@ -64,7 +64,6 @@ const CampaignsPublic = () => {
   const campaignsToShow = campaigns.filter(c => c.status !== 'Ended');
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Recycling Campaigns</span></h1><p className="subtitle">Join community campaigns and track collective progress.</p></div>
@@ -131,7 +130,6 @@ const CampaignsPublic = () => {
           </div>
         </div>
       )}
-    </div>
     </div>
   );
 };

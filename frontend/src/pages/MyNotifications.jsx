@@ -53,7 +53,6 @@ const MyNotifications = () => {
   if (loading) return <div className="spinner-center"><div className="spinner-lg"></div></div>;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Notifications</span></h1><p className="subtitle">{unread > 0 ? `You have ${unread} unread notification${unread > 1 ? 's' : ''}.` : 'You are all caught up.'}</p></div>
@@ -83,7 +82,6 @@ const MyNotifications = () => {
           ))}
         </div>
       )}
-    </div>
     </div>
   );
 };

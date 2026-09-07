@@ -15,7 +15,7 @@ const light = {
   emptyColor: '#999',
 };
 
-const DataTable = ({ columns, rows, empty = 'No records found.', rowKey = '_id', glass = false }) => {
+const DataTable = ({ columns, rows, empty = 'No records found.', rowKey = '_id', glass = true }) => {
   const s = glass ? dark : light;
   const cell = (extra = {}) => ({ textAlign: 'left', padding: '10px 12px', ...extra });
 

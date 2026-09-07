@@ -40,7 +40,6 @@ const BusinessDashboard = () => {
 
   if (notFound || !business) {
     return (
-      <div className="eco-dark">
       <div className="page-container">
         <h1>Business Dashboard</h1>
         <div className="eco-glass" style={{ borderRadius: 14, padding: 32, marginTop: 12 }}>
@@ -49,12 +48,10 @@ const BusinessDashboard = () => {
           <Link to="/business/profile"><button>Create Business Profile →</button></Link>
         </div>
       </div>
-      </div>
     );
   }
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">{business.businessName}</span></h1><p className="subtitle">{business.businessType} · {business.address || 'No address set'}</p></div>
@@ -110,7 +107,6 @@ const BusinessDashboard = () => {
           ))}
         </div>
       </div>
-    </div>
     </div>
   );
 };

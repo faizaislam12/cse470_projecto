@@ -47,7 +47,6 @@ const UserManagement = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">User Management</span></h1><p className="subtitle">View platform users and manage their roles.</p></div>
@@ -89,7 +88,6 @@ const UserManagement = () => {
         </label>
         <button type="button" onClick={saveRole}>Save Role</button>
       </Modal>
-    </div>
     </div>
   );
 };

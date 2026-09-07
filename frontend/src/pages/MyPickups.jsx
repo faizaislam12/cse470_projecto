@@ -76,7 +76,6 @@ const MyPickups = () => {
     String(pickup.collector?._id) === String(user?._id);
 
   return (
-    <div className="eco-dark">
       <div className="page-container">
         <div className="page-header"><div><h1>My Pickups</h1><p className="subtitle">Scheduled collections and live status tracking.</p></div></div>
         {msg && <div className="success">{msg}</div>}
@@ -159,7 +158,6 @@ const MyPickups = () => {
           <button className="eco-gradient-btn" onClick={doReschedule} disabled={!reschedule?.scheduledDate}>Save Reschedule</button>
         </Modal>
       </div>
-    </div>
   );
 };
 export default MyPickups;

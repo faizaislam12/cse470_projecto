@@ -36,7 +36,6 @@ const BusinessAccounts = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Business Accounts</span></h1><p className="subtitle">Verify and manage business registrations.</p></div>
@@ -77,7 +76,6 @@ const BusinessAccounts = () => {
           empty="No business registrations yet."
         />
       )}
-    </div>
     </div>
   );
 };

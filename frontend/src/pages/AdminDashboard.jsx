@@ -52,7 +52,6 @@ const AdminDashboard = () => {
   const maxTrend = data ? Math.max(1, ...data.monthlyTrend.map((m) => m.weight)) : 1;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Admin Dashboard</span></h1><p className="subtitle">Platform-wide overview of GreenLoop.</p></div>
@@ -112,7 +111,6 @@ const AdminDashboard = () => {
           </div>
         </>
       ) : <p className="eco-muted">Could not load analytics. Is the backend running?</p>}
-    </div>
     </div>
   );
 };

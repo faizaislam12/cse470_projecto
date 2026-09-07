@@ -19,7 +19,6 @@ const CollectorPerformance = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Collector Performance</span></h1><p className="subtitle">Track pickup completion and collection stats for every collector.</p></div>
@@ -47,7 +46,6 @@ const CollectorPerformance = () => {
           empty="No collectors registered yet."
         />
       )}
-    </div>
     </div>
   );
 };

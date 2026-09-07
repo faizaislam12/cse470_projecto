@@ -54,7 +54,6 @@ const Campaigns = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Campaign Management</span></h1><p className="subtitle">Create and manage recycling campaigns.</p></div>
@@ -100,7 +99,6 @@ const Campaigns = () => {
           <button type="submit">Create & Notify All</button>
         </form>
       </Modal>
-    </div>
     </div>
   );
 };

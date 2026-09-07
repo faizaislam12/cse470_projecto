@@ -39,7 +39,6 @@ const AddBusiness = () => {
   };
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Business Profile</span></h1><p className="subtitle">Register your business to participate in recycling campaigns.</p></div>
@@ -68,7 +67,6 @@ const AddBusiness = () => {
           <button type="submit" disabled={loading}>{loading ? 'Saving…' : 'Save Business Profile'}</button>
         </form>
       </div>
-    </div>
     </div>
   );
 };

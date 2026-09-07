@@ -28,7 +28,6 @@ const MyPerformance = () => {
   const month = data.thisMonth;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">My Performance</span></h1><p className="subtitle">Hello, {data.name}! Here's your collection summary.</p></div>
@@ -87,7 +86,6 @@ const MyPerformance = () => {
           </div>
         )}
       </div>
-    </div>
     </div>
   );
 };

@@ -49,7 +49,6 @@ const NotificationCenter = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
-    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
         <div><h1><span className="eco-gradient-text">Notification Center</span></h1><p className="subtitle">Broadcast updates to everyone or message a single user.</p></div>
@@ -98,7 +97,6 @@ const NotificationCenter = () => {
           <button type="submit">Send</button>
         </form>
       </Modal>
-    </div>
     </div>
   );
 };
