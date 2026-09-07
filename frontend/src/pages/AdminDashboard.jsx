@@ -39,12 +39,12 @@ const AdminDashboard = () => {
   ] : [];
 
   const quickLinks = [
-    { to: '/admin/users', label: '👥 User Management' },
-    { to: '/admin/businesses', label: '🏢 Business Accounts' },
-    { to: '/admin/campaigns', label: '📣 Campaigns' },
-    { to: '/admin/collectors', label: '♻️ Collector Performance' },
-    { to: '/admin/analytics', label: '📊 Analytics' },
-    { to: '/admin/notifications', label: '🔔 Notification Center' },
+    { to: '/user-management', label: '👥 User Management' },
+    { to: '/business-accounts', label: '🏢 Business Accounts' },
+    { to: '/campaign-management', label: '📣 Campaigns' },
+    { to: '/collector-performance', label: '♻️ Collector Performance' },
+    { to: '/admin-analysis', label: '📊 Analytics' },
+    { to: '/notification-center', label: '🔔 Notification Center' },
     { to: '/admin/categories', label: '🗂️ Material Categories' },
     { to: '/admin/rewards', label: '🎁 Rewards Management' },
   ];

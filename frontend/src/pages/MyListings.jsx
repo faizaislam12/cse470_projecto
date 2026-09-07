@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import api from '../api/axios';
 import Modal from '../components/Modal';
 
@@ -90,8 +90,14 @@ const MyListings = () => {
                 <div className="listing-meta"><span>Address: {l.address}</span></div>
                 {l.status === 'Available' && (
                   <div style={{display:'flex',gap:8,marginTop:12}}>
+                    <Link to={`/marketplace/${l._id}/offers`} style={{flex:1,textAlign:'center',textDecoration:'none'}}><button style={{width:'100%',background:'#0284c7'}}>View Offers</button></Link>
                     <button onClick={() => openEditModal(l)} style={{flex:1,background:'#6b7280'}}>Edit</button>
                     <button onClick={() => handleDelete(l._id)} style={{background:'#ef4444',flex:1}}>Delete</button>
+                  </div>
+                )}
+                {(l.status === 'Pending' || l.status === 'Scheduled') && (
+                  <div style={{display:'flex',gap:8,marginTop:12}}>
+                    <Link to={`/marketplace/${l._id}/offers`} style={{flex:1,textAlign:'center',textDecoration:'none'}}><button style={{width:'100%',background:'#0284c7'}}>View Offers / Schedule</button></Link>
                   </div>
                 )}
               </div>
