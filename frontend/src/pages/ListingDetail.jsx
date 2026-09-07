@@ -66,11 +66,11 @@ const ListingDetail = () => {
         </div>
         <div style={{ textAlign: 'right' }}>
           <span className={`status-badge ${listing.status?.toLowerCase()}`} style={{ position: 'static' }}>{listing.status}</span>
-          <div style={{ fontSize: 28, fontWeight: 800, color: '#15803d', marginTop: 8 }}>৳{Number(listing.price || 0).toFixed(2)}</div>
+          <div style={{ fontSize: 28, fontWeight: 800, color: '#34d399', marginTop: 8 }}>৳{Number(listing.price || 0).toFixed(2)}</div>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 16, background: '#fff', padding: 20, borderRadius: 14, boxShadow: '0 4px 16px rgba(20,96,63,0.06)' }}>
+      <div className="eco-glass" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 16, padding: 20, borderRadius: 14 }}>
         <div>
           <p><strong>Weight:</strong> {listing.weight} {listing.unit}</p>
           <p><strong>Category:</strong> {listing.category?.name || '—'}</p>
@@ -83,9 +83,9 @@ const ListingDetail = () => {
         </div>
       </div>
 
-      <div style={{ background: '#fff', padding: 20, borderRadius: 14, marginTop: 16, boxShadow: '0 4px 16px rgba(20,96,63,0.06)' }}>
+      <div className="eco-glass" style={{ padding: 20, borderRadius: 14, marginTop: 16 }}>
         <strong>Description</strong>
-        <p style={{ color: '#555', marginTop: 6 }}>{listing.description}</p>
+        <p style={{ color: '#e9fdf5', marginTop: 6 }}>{listing.description}</p>
       </div>
 
       <div style={{ marginTop: 20, display: 'flex', gap: 12, flexWrap: 'wrap' }}>

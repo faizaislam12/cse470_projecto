@@ -65,27 +65,27 @@ const MyOffers = () => {
         offers.length === 0 ? <div className="empty-state">No offers yet. <Link to="/marketplace">Browse Marketplace</Link></div> :
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {offers.map(offer => (
-            <div key={offer._id} style={{ background: '#fff', borderRadius: 14, padding: 18, boxShadow: '0 4px 16px rgba(20,96,63,0.06)' }}>
+            <div key={offer._id} className="eco-glass" style={{ borderRadius: 14, padding: 18 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
                 <div>
                   <strong>{offer.listing?.title || 'Listing'}</strong>
-                  <p style={{ color: '#666', fontSize: 13 }}>{offer.listing?.weight} {offer.listing?.unit}{offer.listing?.address ? ` | ${offer.listing.address}` : ''}</p>
+                  <p style={{ color: 'rgba(233,253,245,0.7)', fontSize: 13 }}>{offer.listing?.weight} {offer.listing?.unit}{offer.listing?.address ? ` | ${offer.listing.address}` : ''}</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 20, fontWeight: 800, color: '#15803d' }}>৳{Number(offer.offerPrice || 0).toFixed(2)}</div>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: '#34d399' }}>৳{Number(offer.offerPrice || 0).toFixed(2)}</div>
                   <span className={`status-badge ${offer.status}`} style={{ position: 'static', marginTop: 4, display: 'inline-block' }}>{offer.status}</span>
                 </div>
               </div>
-              {offer.message && <p style={{ color: '#666', fontSize: 13, fontStyle: 'italic', marginTop: 6 }}>"{offer.message}"</p>}
+              {offer.message && <p style={{ color: 'rgba(233,253,245,0.7)', fontSize: 13, fontStyle: 'italic', marginTop: 6 }}>"{offer.message}"</p>}
 
               {offer.counterOffers?.length > 0 && (
-                <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #f0f0f0' }}>
+                <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                   <strong style={{ fontSize: 13 }}>Counter offers:</strong>
                   {offer.counterOffers.map((co, idx) => (
                     <div key={idx} style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 6, flexWrap: 'wrap' }}>
-                      <strong style={{ color: '#7c3aed' }}>৳{Number(co.price).toFixed(2)}</strong>
+                      <strong style={{ color: '#c4b5fd' }}>৳{Number(co.price).toFixed(2)}</strong>
                       <span className={`status-badge ${co.status}`} style={{ position: 'static', fontSize: 10 }}>{co.status}</span>
-                      {co.message && <span style={{ color: '#666', fontSize: 12, fontStyle: 'italic' }}>"{co.message}"</span>}
+                      {co.message && <span style={{ color: 'rgba(233,253,245,0.7)', fontSize: 12, fontStyle: 'italic' }}>"{co.message}"</span>}
                       {co.status === 'pending' && (
                         <span style={{ display: 'flex', gap: 6 }}>
                           <button onClick={() => respondCounter(offer._id, idx, 'accept')} style={{ background: '#16a34a', padding: '4px 12px', fontSize: 13 }}>Accept</button>
@@ -133,7 +133,7 @@ const MyOffers = () => {
           <label>Contact Phone</label>
           <input required value={scheduleForm.contactPhone} onChange={e => setScheduleForm({ ...scheduleForm, contactPhone: e.target.value })} placeholder="Phone number" style={{ marginBottom: 12 }} />
           <label>Special Instructions</label>
-          <textarea rows={2} value={scheduleForm.specialInstructions} onChange={e => setScheduleForm({ ...scheduleForm, specialInstructions: e.target.value })} style={{ resize: 'none', padding: '11px 13px', border: '1px solid #d6dbd9', borderRadius: 8, fontSize: 14, width: '100%', marginBottom: 16 }} />
+          <textarea rows={2} value={scheduleForm.specialInstructions} onChange={e => setScheduleForm({ ...scheduleForm, specialInstructions: e.target.value })} style={{ resize: 'none', padding: '11px 13px', borderRadius: 8, fontSize: 14, width: '100%', marginBottom: 16 }} />
           <button type="submit">Schedule</button>
         </form>
       </Modal>
