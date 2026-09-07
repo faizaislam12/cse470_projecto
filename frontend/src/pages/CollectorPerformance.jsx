@@ -19,13 +19,14 @@ const CollectorPerformance = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>Collector Performance</h1><p className="subtitle">Track pickup completion and collection stats for every collector.</p></div>
+        <div><h1><span className="eco-gradient-text">Collector Performance</span></h1><p className="subtitle">Track pickup completion and collection stats for every collector.</p></div>
       </div>
 
       {loading ? <div className="spinner-center"><div className="spinner-lg"></div></div> : (
-        <DataTable
+        <DataTable glass
           columns={[
             { key: 'name', label: 'Collector', render: (c) => <strong>{c.user.name}</strong> },
             { key: 'email', label: 'Email', render: (c) => c.user.email },
@@ -46,6 +47,7 @@ const CollectorPerformance = () => {
           empty="No collectors registered yet."
         />
       )}
+    </div>
     </div>
   );
 };

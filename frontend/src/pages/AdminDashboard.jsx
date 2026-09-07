@@ -52,9 +52,10 @@ const AdminDashboard = () => {
   const maxTrend = data ? Math.max(1, ...data.monthlyTrend.map((m) => m.weight)) : 1;
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>Admin Dashboard</h1><p className="subtitle">Platform-wide overview of GreenLoop.</p></div>
+        <div><h1><span className="eco-gradient-text">Admin Dashboard</span></h1><p className="subtitle">Platform-wide overview of GreenLoop.</p></div>
       </div>
 
       {loading ? <div className="spinner-center"><div className="spinner-lg"></div></div> : data ? (
@@ -70,7 +71,7 @@ const AdminDashboard = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18, marginTop: 24 }}>
-            <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 2px 12px rgba(20,96,63,0.06)' }}>
+            <div className="eco-glass" style={{ borderRadius: 14, padding: 20 }}>
               <h3 style={{ margin: '0 0 14px', fontSize: 16 }}>Monthly Recycled Weight (kg)</h3>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: 140 }}>
                 {data.monthlyTrend.map((m) => (
@@ -78,13 +79,13 @@ const AdminDashboard = () => {
                     <div style={{ flex: 1, width: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
                       <div style={{ width: '70%', background: 'linear-gradient(180deg,#10b981,#1f8a5f)', borderRadius: '6px 6px 2px 2px', height: `${Math.max(3, (m.weight / maxTrend) * 100)}%`, transition: 'height .5s' }} title={`${m.weight} kg`}></div>
                     </div>
-                    <span style={{ fontSize: 10, color: '#888', marginTop: 6, whiteSpace: 'nowrap' }}>{m.month.slice(5)}</span>
+                    <span style={{ fontSize: 10, color: 'rgba(233,253,245,0.5)', marginTop: 6, whiteSpace: 'nowrap' }}>{m.month.slice(5)}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 2px 12px rgba(20,96,63,0.06)' }}>
+            <div className="eco-glass" style={{ borderRadius: 14, padding: 20 }}>
               <h3 style={{ margin: '0 0 14px', fontSize: 16 }}>Players by Role</h3>
               {data.roleDistribution.map((r, i) => (
                 <div key={r.role} style={{ marginBottom: 10 }}>
@@ -103,16 +104,15 @@ const AdminDashboard = () => {
             <h2 style={{ fontSize: 18, marginBottom: 14 }}>Manage Platform</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(215px, 1fr))', gap: 12 }}>
               {quickLinks.map((q) => (
-                <Link key={q.to} to={q.to} style={{ textDecoration: 'none' }}>
-                  <div style={{ background: '#fff', borderRadius: 12, padding: '18px 20px', boxShadow: '0 2px 12px rgba(20,96,63,0.06)', fontWeight: 600, color: '#1a2e23', transition: 'transform .2s, box-shadow .2s' }} onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(20,96,63,0.12)'; }} onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(20,96,63,0.06)'; }}>
-                    {q.label}
-                  </div>
+                <Link key={q.to} to={q.to} className="eco-quick-link eco-glass" style={{ borderRadius: 12 }}>
+                  {q.label}
                 </Link>
               ))}
             </div>
           </div>
         </>
-      ) : <p style={{ color: '#999' }}>Could not load analytics. Is the backend running?</p>}
+      ) : <p className="eco-muted">Could not load analytics. Is the backend running?</p>}
+    </div>
     </div>
   );
 };

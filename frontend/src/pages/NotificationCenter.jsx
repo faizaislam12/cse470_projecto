@@ -49,15 +49,16 @@ const NotificationCenter = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>Notification Center</h1><p className="subtitle">Broadcast updates to everyone or message a single user.</p></div>
+        <div><h1><span className="eco-gradient-text">Notification Center</span></h1><p className="subtitle">Broadcast updates to everyone or message a single user.</p></div>
         <button onClick={openSend}>+ Send Notification</button>
       </div>
       {msg && <div className="success">{msg}</div>}
 
       {loading ? <div className="spinner-center"><div className="spinner-lg"></div></div> : (
-        <DataTable
+        <DataTable glass
           columns={[
             { key: 'title', label: 'Title', render: (n) => <strong>{n.title} {!n.isRead && <span style={{ background: '#ef4444', color: '#fff', borderRadius: 99, padding: '2px 7px', fontSize: 10, marginLeft: 6 }}>NEW</span>}</strong> },
             { key: 'message', label: 'Message', render: (n) => <span style={{ color: '#666' }}>{n.message}</span> },
@@ -97,6 +98,7 @@ const NotificationCenter = () => {
           <button type="submit">Send</button>
         </form>
       </Modal>
+    </div>
     </div>
   );
 };

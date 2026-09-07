@@ -39,12 +39,13 @@ const AddBusiness = () => {
   };
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>Business Profile</h1><p className="subtitle">Register your business to participate in recycling campaigns.</p></div>
+        <div><h1><span className="eco-gradient-text">Business Profile</span></h1><p className="subtitle">Register your business to participate in recycling campaigns.</p></div>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 14, padding: 28, boxShadow: '0 2px 12px rgba(20,96,63,0.06)', maxWidth: 560 }}>
+      <div className="eco-glass" style={{ borderRadius: 14, padding: 28, maxWidth: 560 }}>
         {msg && <div className="success">{msg}</div>}
         <form onSubmit={handleSubmit}>
           <label>Business Name
@@ -62,11 +63,12 @@ const AddBusiness = () => {
             <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} placeholder="Business address" />
           </label>
           <label>Description
-            <textarea rows={3} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} style={{ width: '100%', padding: '11px 13px', border: '1px solid #d6dbd9', borderRadius: 8, fontSize: 14, resize: 'vertical' }} placeholder="What does your business do?" />
+            <textarea rows={3} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} style={{ width: '100%', padding: '11px 13px', borderRadius: 8, fontSize: 14, resize: 'vertical' }} placeholder="What does your business do?" />
           </label>
           <button type="submit" disabled={loading}>{loading ? 'Saving…' : 'Save Business Profile'}</button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

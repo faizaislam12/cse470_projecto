@@ -47,27 +47,28 @@ const UserManagement = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>User Management</h1><p className="subtitle">View platform users and manage their roles.</p></div>
+        <div><h1><span className="eco-gradient-text">User Management</span></h1><p className="subtitle">View platform users and manage their roles.</p></div>
       </div>
       {msg && <div className="success">{msg}</div>}
 
       <div className="filter-bar">
-        <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search by name or email…" />
-        <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)}>
+        <input className="eco-input" value={q} onChange={e => setQ(e.target.value)} placeholder="Search by name or email…" />
+        <select className="eco-input" value={roleFilter} onChange={e => setRoleFilter(e.target.value)}>
           <option value="">All roles</option>
           {ROLE_OPTIONS.map(r => <option key={r} value={r}>{ROLE_LABELS[r]}</option>)}
         </select>
       </div>
 
       {loading ? <div className="spinner-center"><div className="spinner-lg"></div></div> : (
-        <DataTable
+        <DataTable glass
           columns={[
             { key: 'name', label: 'Name', render: (u) => <strong>{u.name}</strong> },
             { key: 'email', label: 'Email' },
             { key: 'role', label: 'Role', render: (u) => (
-              <span style={{ background: 'rgba(16,185,129,0.12)', color: '#1f8a5f', padding: '3px 10px', borderRadius: 20, fontWeight: 700, fontSize: 11 }}>{ROLE_LABELS[u.role] || u.role}</span>
+              <span style={{ background: 'rgba(16,185,129,0.12)', color: '#34d399', padding: '3px 10px', borderRadius: 20, fontWeight: 700, fontSize: 11 }}>{ROLE_LABELS[u.role] || u.role}</span>
             ) },
             { key: 'ecoPoints', label: 'EcoPoints' },
             { key: 'createdAt', label: 'Joined', render: (u) => new Date(u.createdAt).toLocaleDateString() },
@@ -82,12 +83,13 @@ const UserManagement = () => {
 
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={`Change Role — ${selected?.name || ''}`}>
         <label>New Role
-          <select value={newRole} onChange={e => setNewRole(e.target.value)}>
+          <select className="eco-input" value={newRole} onChange={e => setNewRole(e.target.value)}>
             {ROLE_OPTIONS.map(r => <option key={r} value={r}>{ROLE_LABELS[r]}</option>)}
           </select>
         </label>
         <button type="button" onClick={saveRole}>Save Role</button>
       </Modal>
+    </div>
     </div>
   );
 };

@@ -54,15 +54,16 @@ const Campaigns = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>Campaign Management</h1><p className="subtitle">Create and manage recycling campaigns.</p></div>
+        <div><h1><span className="eco-gradient-text">Campaign Management</span></h1><p className="subtitle">Create and manage recycling campaigns.</p></div>
         <button onClick={() => setShowModal(true)}>+ New Campaign</button>
       </div>
       {msg && <div className="success">{msg}</div>}
 
       {loading ? <div className="spinner-center"><div className="spinner-lg"></div></div> : (
-        <DataTable
+        <DataTable glass
           columns={[
             { key: 'title', label: 'Campaign', render: (c) => <strong>{c.title}</strong> },
             { key: 'targetWeight', label: 'Target (kg)', render: (c) => c.targetWeight || 0 },
@@ -99,6 +100,7 @@ const Campaigns = () => {
           <button type="submit">Create & Notify All</button>
         </form>
       </Modal>
+    </div>
     </div>
   );
 };

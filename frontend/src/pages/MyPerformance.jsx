@@ -28,9 +28,10 @@ const MyPerformance = () => {
   const month = data.thisMonth;
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>My Performance</h1><p className="subtitle">Hello, {data.name}! Here's your collection summary.</p></div>
+        <div><h1><span className="eco-gradient-text">My Performance</span></h1><p className="subtitle">Hello, {data.name}! Here's your collection summary.</p></div>
         <span className="eco-badge" style={{ fontSize: 15 }}>⭐ {data.ecoPoints} EcoPoints</span>
       </div>
 
@@ -44,7 +45,7 @@ const MyPerformance = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 18, marginTop: 24 }}>
-        <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 2px 12px rgba(20,96,63,0.06)' }}>
+        <div className="eco-glass" style={{ borderRadius: 14, padding: 20 }}>
           <h3 style={{ margin: '0 0 14px', fontSize: 16 }}>This Month</h3>
           <div style={{ display: 'flex', justifyContent: 'space-around', textAlign: 'center' }}>
             <div><div className="stat-value" style={{ fontSize: 22 }}>{month.pickups}</div><div className="stat-label">Pickups</div></div>
@@ -53,9 +54,9 @@ const MyPerformance = () => {
           </div>
         </div>
 
-        <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 2px 12px rgba(20,96,63,0.06)' }}>
+        <div className="eco-glass" style={{ borderRadius: 14, padding: 20 }}>
           <h3 style={{ margin: '0 0 14px', fontSize: 16 }}>Collected by Material (kg)</h3>
-          {waste.length === 0 && <p style={{ color: '#999', fontSize: 13 }}>Complete a pickup to see your breakdown.</p>}
+          {waste.length === 0 && <p className="eco-muted" style={{ fontSize: 13 }}>Complete a pickup to see your breakdown.</p>}
           {waste.map(([mat, kg], i) => (
             <div key={mat} style={{ marginBottom: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
@@ -71,7 +72,7 @@ const MyPerformance = () => {
 
       <div style={{ marginTop: 24 }}>
         <h3 style={{ fontSize: 16, marginBottom: 12 }}>Recent Pickups</h3>
-        {data.recent.length === 0 ? <p style={{ color: '#999' }}>No pickups yet.</p> : (
+        {data.recent.length === 0 ? <p className="eco-muted">No pickups yet.</p> : (
           <div className="eco-history-list">
             {data.recent.map((p) => (
               <div key={p._id} className="eco-history-item">
@@ -86,6 +87,7 @@ const MyPerformance = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

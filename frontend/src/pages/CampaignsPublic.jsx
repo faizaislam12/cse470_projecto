@@ -64,13 +64,14 @@ const CampaignsPublic = () => {
   const campaignsToShow = campaigns.filter(c => c.status !== 'Ended');
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>Recycling Campaigns</h1><p className="subtitle">Join community campaigns and track collective progress.</p></div>
+        <div><h1><span className="eco-gradient-text">Recycling Campaigns</span></h1><p className="subtitle">Join community campaigns and track collective progress.</p></div>
       </div>
       {msg && <div className="success">{msg}</div>}
 
-      {campaignsToShow.length === 0 && <p style={{ color: '#999' }}>No active or upcoming campaigns right now.</p>}
+      {campaignsToShow.length === 0 && <p className="eco-muted">No active or upcoming campaigns right now.</p>}
 
       <div className="listing-grid">
         {campaignsToShow.map((c) => {
@@ -130,6 +131,7 @@ const CampaignsPublic = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

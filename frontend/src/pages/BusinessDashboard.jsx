@@ -40,21 +40,24 @@ const BusinessDashboard = () => {
 
   if (notFound || !business) {
     return (
+      <div className="eco-dark">
       <div className="page-container">
         <h1>Business Dashboard</h1>
-        <div style={{ background: '#fff', borderRadius: 14, padding: 32, boxShadow: '0 2px 12px rgba(20,96,63,0.06)', marginTop: 12 }}>
+        <div className="eco-glass" style={{ borderRadius: 14, padding: 32, marginTop: 12 }}>
           <h3 style={{ marginTop: 0 }}>Complete your business profile</h3>
-          <p style={{ color: '#666' }}>Set up your business details so the admin can verify your account and you can participate in campaigns and list recyclable materials.</p>
+          <p className="eco-muted">Set up your business details so the admin can verify your account and you can participate in campaigns and list recyclable materials.</p>
           <Link to="/business/profile"><button>Create Business Profile →</button></Link>
         </div>
+      </div>
       </div>
     );
   }
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>{business.businessName}</h1><p className="subtitle">{business.businessType} · {business.address || 'No address set'}</p></div>
+        <div><h1><span className="eco-gradient-text">{business.businessName}</span></h1><p className="subtitle">{business.businessType} · {business.address || 'No address set'}</p></div>
         <Link to="/business/profile"><button>Edit Profile</button></Link>
       </div>
 
@@ -65,25 +68,25 @@ const BusinessDashboard = () => {
         <div className="stat-card"><div className="stat-icon">📣</div><div className="stat-value">{campaigns.length}</div><div className="stat-label">Campaigns Available</div></div>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 12, padding: '14px 18px', boxShadow: '0 2px 12px rgba(20,96,63,0.06)', marginTop: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="eco-glass" style={{ borderRadius: 12, padding: '14px 18px', marginTop: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
         <span style={{ fontWeight: 600, fontSize: 14 }}>Verification status:</span>
         <span style={{ background: `${(STATUS_COLOR[business.status] || '#999')}1A`, color: STATUS_COLOR[business.status] || '#999', padding: '3px 12px', borderRadius: 20, fontWeight: 700, fontSize: 12 }}>{business.status}</span>
-        {business.status === 'Pending' && <span style={{ fontSize: 12, color: '#888' }}>The admin will review your registration shortly.</span>}
-        {business.status === 'Rejected' && <span style={{ fontSize: 12, color: '#888' }}>Your registration was rejected. Contact the admin.</span>}
-        {business.status === 'Suspended' && <span style={{ fontSize: 12, color: '#888' }}>Your business is suspended.</span>}
+        {business.status === 'Pending' && <span className="eco-muted" style={{ fontSize: 12 }}>The admin will review your registration shortly.</span>}
+        {business.status === 'Rejected' && <span className="eco-muted" style={{ fontSize: 12 }}>Your registration was rejected. Contact the admin.</span>}
+        {business.status === 'Suspended' && <span className="eco-muted" style={{ fontSize: 12 }}>Your business is suspended.</span>}
       </div>
 
       {business.status === 'Approved' && (
         <div style={{ marginTop: 24 }}>
           <h2 style={{ fontSize: 18 }}>My Listings</h2>
           <div style={{ marginTop: 12 }}>
-            <DataTable
+            <DataTable glass
               columns={[
                 { key: 'title', label: 'Listing' },
                 { key: 'weight', label: 'Weight', render: (l) => `${l.weight} ${l.unit}` },
                 { key: 'price', label: 'Price', render: (l) => `৳ ${l.price}` },
                 { key: 'status', label: 'Status', render: (l) => (
-                  <span style={{ background: l.status === 'Available' ? 'rgba(16,185,129,0.12)' : l.status === 'Completed' ? 'rgba(59,130,246,0.12)' : 'rgba(245,158,11,0.12)', color: l.status === 'Available' ? '#10b981' : l.status === 'Completed' ? '#3b82f6' : '#f59e0b', padding: '3px 10px', borderRadius: 20, fontWeight: 700, fontSize: 11 }}>{l.status}</span>
+                  <span style={{ background: l.status === 'Available' ? 'rgba(16,185,129,0.12)' : l.status === 'Completed' ? 'rgba(59,130,246,0.12)' : 'rgba(245,158,11,0.12)', color: l.status === 'Available' ? '#34d399' : l.status === 'Completed' ? '#60a5fa' : '#fbbf24', padding: '3px 10px', borderRadius: 20, fontWeight: 700, fontSize: 11 }}>{l.status}</span>
                 ) },
               ]}
               rows={listings}
@@ -107,6 +110,7 @@ const BusinessDashboard = () => {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 };

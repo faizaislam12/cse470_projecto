@@ -489,4 +489,165 @@ button:disabled {
 /* Confirm Modal Info */
 .redemption-confirm-info { background: #f0f4ff; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; border: 1px solid #c7d7ff; }
 
+/* ==========================================================
+   Member 4 — "eco-dark" glassmorphism theme (ported from the
+   standalone admin app). Wrap any page in .eco-dark to activate.
+   ========================================================== */
+
+.eco-dark {
+  --eco-glass-bg: rgba(255, 255, 255, 0.06);
+  --eco-glass-border: rgba(52, 211, 153, 0.18);
+  background: radial-gradient(circle at 15% -10%, rgba(16, 185, 129, 0.16), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(5, 150, 105, 0.12), transparent 40%),
+    linear-gradient(160deg, #031a12, #062018 55%, #010b08);
+  color: #e9fdf5;
+  min-height: 100vh;
+  margin-top: -56px;
+  padding: 56px 0 0;
+}
+
+.eco-dark .page-container h1,
+.eco-dark h1,
+.eco-dark h2,
+.eco-dark h3 { color: #e9fdf5; }
+
+.eco-dark .subtitle { color: rgba(233, 253, 245, 0.6); }
+
+.eco-dark input,
+.eco-dark select,
+.eco-dark textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #e9fdf5;
+}
+.eco-dark input::placeholder,
+.eco-dark textarea::placeholder { color: rgba(233, 253, 245, 0.4); }
+.eco-dark input:focus,
+.eco-dark select:focus,
+.eco-dark textarea:focus {
+  outline: none;
+  border-color: rgba(52, 211, 153, 0.55);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: #e9fdf5;
+}
+.eco-dark select option { background: #0b2a20; color: #e9fdf5; }
+.eco-dark label { color: rgba(233, 253, 245, 0.85); }
+
+.eco-glass {
+  background: var(--eco-glass-bg);
+  border: 1px solid var(--eco-glass-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.eco-glass-strong {
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(16, 185, 129, 0.08);
+}
+
+.eco-gradient-text {
+  background: linear-gradient(90deg, #6ee7b7, #34d399 45%, #a7f3d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eco-gradient-btn {
+  background: linear-gradient(135deg, #10b981, #059669 60%, #047857);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+.eco-gradient-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5); filter: brightness(1.08); }
+
+.eco-ghost-btn { background: rgba(255, 255, 255, 0.07) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; box-shadow: none !important; color: #e9fdf5; }
+.eco-danger-btn { background: linear-gradient(135deg, #ef4444, #dc2626) !important; box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3) !important; }
+
+.eco-muted { color: rgba(233, 253, 245, 0.6); }
+
+/* Stat tiles become frosted glass on dark surfaces */
+.eco-dark .stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(52, 211, 153, 0.16);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+.eco-dark .stat-card:hover { box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(52, 211, 153, 0.18); }
+.eco-dark .stat-value { color: #e9fdf5; }
+.eco-dark .stat-label { color: rgba(233, 253, 245, 0.6); }
+
+/* Listing / history / redemption cards on dark surfaces */
+.eco-dark .listing-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(52, 211, 153, 0.14);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.eco-dark .listing-card h3 { color: #e9fdf5; }
+.eco-dark .listing-desc { color: rgba(233, 253, 245, 0.65); }
+.eco-dark .listing-meta { color: rgba(233, 253, 245, 0.75); }
+.eco-dark .listing-meta span { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); color: rgba(233, 253, 245, 0.8); }
+
+.eco-dark .eco-history-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(52, 211, 153, 0.14);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-left: 4px solid #10b981;
+}
+.eco-dark .eco-history-title { color: #e9fdf5; }
+.eco-dark .eco-history-meta { color: rgba(233, 253, 245, 0.7); }
+.eco-dark .eco-history-date { color: rgba(233, 253, 245, 0.45); }
+
+.eco-dark .eco-progress-bar { background: rgba(255, 255, 255, 0.1); }
+.eco-dark .eco-rate-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(52, 211, 153, 0.16); }
+.eco-dark .eco-rate-name { color: #e9fdf5; }
+
+/* Modals inside dark pages */
+.eco-dark .modal-content {
+  background: rgba(9, 32, 24, 0.92);
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  color: #e9fdf5;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+.eco-dark .modal-header h2 { color: #e9fdf5; }
+.eco-dark .modal-close { color: rgba(233, 253, 245, 0.7) !important; }
+.eco-dark .modal-close:hover { color: #fff !important; }
+
+.eco-dark .success { background: rgba(6, 78, 59, 0.5); border-color: rgba(167, 243, 208, 0.4); color: #a7f3d0; }
+.eco-dark .error { background: rgba(127, 29, 29, 0.5); border-color: rgba(254, 202, 202, 0.4); color: #fecaca; }
+.eco-dark .eco-badge { background: rgba(16, 185, 129, 0.18); border-color: rgba(52, 211, 153, 0.4); color: #a7f3d0; }
+
+.eco-dark .spinner-lg { border: 3px solid rgba(255, 255, 255, 0.15); border-top-color: #34d399; }
+
+/* Quick-action link tiles used on the admin dashboard */
+.eco-quick-link {
+  display: block;
+  padding: 18px 20px;
+  font-weight: 600;
+  color: #e9fdf5;
+  border-radius: 12px;
+  font-size: 14.5px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.eco-quick-link:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(16, 185, 129, 0.22); }
+
+/* Scrolling pickups / tables inside dark pages */
+.eco-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+.eco-scrollbar::-webkit-scrollbar-thumb { background: rgba(52, 211, 153, 0.3); border-radius: 999px; }
+
+@keyframes eco-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.eco-fade-up { animation: eco-fade-up 0.5s ease both; }
+
 

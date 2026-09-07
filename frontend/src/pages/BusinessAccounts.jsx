@@ -36,21 +36,22 @@ const BusinessAccounts = () => {
   if (user?.role !== 'admin') return <div className="page-container"><h2>Access Denied</h2></div>;
 
   return (
+    <div className="eco-dark">
     <div className="page-container">
       <div className="page-header">
-        <div><h1>Business Accounts</h1><p className="subtitle">Verify and manage business registrations.</p></div>
+        <div><h1><span className="eco-gradient-text">Business Accounts</span></h1><p className="subtitle">Verify and manage business registrations.</p></div>
       </div>
       {msg && <div className="success">{msg}</div>}
 
       <div className="filter-bar">
-        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+        <select className="eco-input" value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
           <option value="">All statuses</option>
           <option>Pending</option><option>Approved</option><option>Rejected</option><option>Suspended</option>
         </select>
       </div>
 
       {loading ? <div className="spinner-center"><div className="spinner-lg"></div></div> : (
-        <DataTable
+        <DataTable glass
           columns={[
             { key: 'businessName', label: 'Business', render: (b) => <strong>{b.businessName}</strong> },
             { key: 'type', label: 'Type', render: (b) => b.businessType },
@@ -76,6 +77,7 @@ const BusinessAccounts = () => {
           empty="No business registrations yet."
         />
       )}
+    </div>
     </div>
   );
 };
