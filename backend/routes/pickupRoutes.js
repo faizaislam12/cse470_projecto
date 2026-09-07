@@ -9,21 +9,16 @@ const {
   listPickups,
 } = require('../controllers/pickupController');
 
-// Assumes existing auth middleware (JWT) and role-based authorization middleware
 const { protect } = require('../middleware/authMiddleware');
 const { authorize } = require('../middleware/roleMiddleware');
 
 // Feature 6: Pickup Scheduling
-router.post('/', schedulePickup);
-router.patch('/:id/reschedule', reschedulePickup);
+router.post('/', protect, authorize('household', 'business', 'collector', 'admin'), schedulePickup);
+router.patch('/:id/reschedule', protect, reschedulePickup);
 
 // Feature 7: Pickup Status Tracking
-router.patch('/:id/status', protect, authorize('collector', 'admin'), updatePickupStatus);
-router.get('/:id', protect, getPickupTracking);
 router.get('/', protect, listPickups);
+router.get('/:id', protect, getPickupTracking);
+router.patch('/:id/status', protect, authorize('collector', 'admin'), updatePickupStatus);
 
 module.exports = router;
-
-// In server.js / app.js:
-// const pickupRoutes = require('./routes/pickupRoutes');
-// app.use('/api/pickups', pickupRoutes);

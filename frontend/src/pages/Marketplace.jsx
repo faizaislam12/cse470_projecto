@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 
@@ -99,16 +100,21 @@ const Marketplace = () => {
                   <div><small>Price</small><strong>৳{l.price.toFixed(2)}</strong></div>
                   <div><small>Listed by</small><strong>{l.owner?.name || 'User'} ({l.owner?.role || 'unknown'})</strong></div>
                 </div>
-                {isBuyer && l.status === 'Available' && l.owner?._id?.toString() !== user?.id?.toString() && (
+                {isBuyer && user.role !== 'collector' && l.status === 'Available' && l.owner?._id?.toString() !== user?.id?.toString() && (
                   <button onClick={() => handleClaim(l._id)} className="btn-claim" disabled={claimingId === l._id}>
                     {claimingId === l._id ? 'Claiming...' : 'Claim Pickup'}
                   </button>
                 )}
-                {user && l.owner?._id?.toString() === user?.id?.toString() && l.status === 'Available' && (
-                  <button onClick={() => handleDelete(l._id)} style={{background: '#ef4444', color: 'white', border: 'none', padding: '10px 16px', borderRadius: '6px', cursor: 'pointer', marginTop: '10px', width: '100%', fontWeight: '600'}}>
-                    Delete Listing
-                  </button>
-                )}
+                <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+                  <Link to={`/marketplace/${l._id}`} className="btn-claim" style={{ flex: 1, textAlign: 'center', background: 'linear-gradient(135deg, #2fa572, #1f8a5f)', color: '#fff', borderRadius: 8, fontWeight: 600 }}>
+                    {user?.role === 'collector' && l.status === 'Available' && l.owner?._id?.toString() !== user?.id?.toString() ? 'Make an Offer' : 'View Details'}
+                  </Link>
+                  {user && l.owner?._id?.toString() === user?.id?.toString() && l.status === 'Available' && (
+                    <button onClick={() => handleDelete(l._id)} style={{ background: '#ef4444', color: 'white', border: 'none', padding: '10px 16px', borderRadius: '6px', cursor: 'pointer', fontWeight: '600' }}>
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))}

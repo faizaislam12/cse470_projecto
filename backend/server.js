@@ -54,6 +54,7 @@ app.use('/api/feedback', require('./routes/feedbackRoutes'));
 
 // --- Member 2 (fi) stack: offers & counter-offers on the marketplace ---
 app.use('/api/offers', require('./routes/offerRoutes'));
+app.use('/api/pickups', require('./routes/pickupRoutes'));
 
 // --- Member 3 (adrita) stack: rewards, eco points, impact, goals, certificates ---
 app.use('/api/ecopoints', require('./routes/ecoPointsRoutes'));

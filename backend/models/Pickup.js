@@ -43,14 +43,7 @@ const pickupSchema = new mongoose.Schema(
       enum: ['morning', 'afternoon', 'evening'],
       required: true,
     },
-    address: {
-      line1: { type: String, required: true },
-      line2: { type: String },
-      city: { type: String, required: true },
-      postalCode: { type: String, required: true },
-      lat: { type: Number },
-      lng: { type: Number },
-    },
+    address: { type: String, required: true },
     contactPhone: { type: String, required: true },
     specialInstructions: { type: String, trim: true, maxlength: 500 },
 

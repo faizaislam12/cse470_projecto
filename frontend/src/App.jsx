@@ -8,6 +8,10 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import Marketplace from './pages/Marketplace';
+import ListingDetail from './pages/ListingDetail';
+import ListingOffers from './pages/ListingOffers';
+import MyOffers from './pages/MyOffers';
+import MyPickups from './pages/MyPickups';
 import MyListings from './pages/MyListings';
 import AdminCategories from './pages/AdminCategories';
 import MaterialGuide from './pages/MaterialGuide';
@@ -42,7 +46,11 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/marketplace/:id" element={<ListingDetail />} />
+            <Route path="/marketplace/:id/offers" element={<ListingOffers />} />
             <Route path="/my-listings" element={<MyListings />} />
+            <Route path="/my-offers" element={<MyOffers />} />
+            <Route path="/my-pickups" element={<MyPickups />} />
             <Route path="/history" element={<Transactions />} />
             <Route path="/material-guide" element={<MaterialGuide />} />
             <Route path="/ecopoints" element={<EcoPoints />} />

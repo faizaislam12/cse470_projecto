@@ -1,10 +1,10 @@
 const Pickup = require('../models/Pickup');
-const Listing = require('../models/Listing'); // assumes Listing model exists (Feature 1)
+const Offer = require('../models/Offer');
+const Listing = require('../models/Listing');
 
-// Allowed forward transitions for status tracking
 const ALLOWED_TRANSITIONS = {
-  scheduled: ['confirmed', 'rescheduled', 'cancelled'],
-  confirmed: ['en_route', 'rescheduled', 'cancelled'],
+  scheduled: ['confirmed', 'cancelled'],
+  confirmed: ['en_route', 'cancelled'],
   en_route: ['in_progress', 'cancelled'],
   in_progress: ['completed', 'cancelled'],
   rescheduled: ['confirmed', 'cancelled'],
@@ -13,54 +13,56 @@ const ALLOWED_TRANSITIONS = {
 };
 
 /**
- * @desc   Feature 6 - Schedule a pickup (household confirms a collector's accepted offer)
+ * @desc   Feature 6 - Schedule a pickup for an accepted offer
  * @route  POST /api/pickups
- * @access Household
+ * @access Household (listing owner) or Collector of the accepted offer
  */
 exports.schedulePickup = async (req, res) => {
   try {
-    const { listingId, collectorId, acceptedOfferId, scheduledDate, timeSlot, address, contactPhone, specialInstructions } = req.body;
+    const { offerId, scheduledDate, timeSlot, address, contactPhone, specialInstructions } = req.body;
 
-    if (!listingId || !collectorId || !scheduledDate || !timeSlot || !address || !contactPhone) {
+    if (!offerId || !scheduledDate || !timeSlot || !address || !contactPhone) {
       return res.status(400).json({ success: false, message: 'Missing required scheduling fields.' });
     }
 
-    const listing = await Listing.findById(listingId);
-    if (!listing) {
-      return res.status(404).json({ success: false, message: 'Listing not found.' });
+    const offer = await Offer.findById(offerId).populate('listing');
+    if (!offer || !offer.listing) {
+      return res.status(404).json({ success: false, message: 'Offer not found.' });
     }
-    // NOTE: ownership check skipped for demo purposes since auth/req.user is not wired up.
-    // Re-enable this once login is added:
-    // if (String(listing.household) !== String(req.user._id)) {
-    //   return res.status(403).json({ success: false, message: 'Not authorized to schedule pickup for this listing.' });
-    // }
+    if (offer.status !== 'accepted') {
+      return res.status(400).json({ success: false, message: 'Pickup can only be scheduled for an accepted offer.' });
+    }
 
-    const pickupDate = new Date(scheduledDate);
-    if (isNaN(pickupDate.getTime()) || pickupDate < new Date()) {
-      return res.status(400).json({ success: false, message: 'Scheduled date must be a valid future date.' });
+    const listing = offer.listing;
+    const householdId = listing.owner;
+    const collectorId = offer.collector;
+
+    const isHousehold = String(householdId) === String(req.user._id);
+    const isCollector = String(collectorId) === String(req.user._id);
+    if (!isHousehold && !isCollector && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Not authorized to schedule this pickup.' });
     }
 
     const pickup = await Pickup.create({
-      listing: listingId,
-      household: listing.household,
+      listing: listing._id,
+      household: householdId,
       collector: collectorId,
-      acceptedOffer: acceptedOfferId,
-      scheduledDate: pickupDate,
+      acceptedOffer: offer._id,
+      scheduledDate: new Date(scheduledDate),
       timeSlot,
       address,
       contactPhone,
       specialInstructions,
       status: 'scheduled',
-      statusHistory: [{ status: 'scheduled', changedBy: listing.household, note: 'Pickup created' }],
+      statusHistory: [{ status: 'scheduled', changedBy: req.user._id, note: 'Pickup created' }],
     });
 
-    listing.status = 'pickup_scheduled';
-    await listing.save();
+    await Listing.findByIdAndUpdate(listing._id, { status: 'Pending' });
 
     const populated = await pickup.populate([
       { path: 'household', select: 'name email phone' },
       { path: 'collector', select: 'name email phone' },
-      { path: 'listing', select: 'title category quantity' },
+      { path: 'listing', select: 'title weight unit price' },
     ]);
 
     return res.status(201).json({ success: true, data: populated });
@@ -107,9 +109,9 @@ exports.reschedulePickup = async (req, res) => {
 };
 
 /**
- * @desc   Feature 7 - Update pickup status (collector updates progress)
+ * @desc   Feature 7 - Update pickup status (collector or admin updates progress)
  * @route  PATCH /api/pickups/:id/status
- * @access Collector (or Admin)
+ * @access Collector (assigned) or Admin
  */
 exports.updatePickupStatus = async (req, res) => {
   try {
@@ -137,11 +139,11 @@ exports.updatePickupStatus = async (req, res) => {
 
     if (status === 'completed') {
       pickup.completedAt = new Date();
-      await Listing.findByIdAndUpdate(pickup.listing, { status: 'completed' });
+      await Listing.findByIdAndUpdate(pickup.listing, { status: 'Completed' });
     }
     if (status === 'cancelled') {
       pickup.cancelledReason = note || 'No reason provided';
-      await Listing.findByIdAndUpdate(pickup.listing, { status: 'active' });
+      await Listing.findByIdAndUpdate(pickup.listing, { status: 'Available' });
     }
 
     await pickup.save();
@@ -161,12 +163,11 @@ exports.getPickupTracking = async (req, res) => {
     const pickup = await Pickup.findById(req.params.id)
       .populate('household', 'name phone')
       .populate('collector', 'name phone')
-      .populate('listing', 'title category quantity')
-      .populate('statusHistory.changedBy', 'name role');
+      .populate('listing', 'title weight unit price');
 
     if (!pickup) return res.status(404).json({ success: false, message: 'Pickup not found.' });
 
-    const isOwner = [String(pickup.household._id), String(pickup.collector._id)].includes(String(req.user._id));
+    const isOwner = [String(pickup.household?._id), String(pickup.collector?._id)].includes(String(req.user._id));
     if (!isOwner && req.user.role !== 'admin') {
       return res.status(403).json({ success: false, message: 'Not authorized to view this pickup.' });
     }
@@ -179,7 +180,7 @@ exports.getPickupTracking = async (req, res) => {
 
 /**
  * @desc   Feature 6/7 - List pickups for the logged-in user, filterable by status
- * @route  GET /api/pickups?status=scheduled&role=household
+ * @route  GET /api/pickups?status=scheduled
  * @access Household, Collector, Admin
  */
 exports.listPickups = async (req, res) => {
@@ -189,14 +190,13 @@ exports.listPickups = async (req, res) => {
 
     if (req.user.role === 'household') filter.household = req.user._id;
     else if (req.user.role === 'collector') filter.collector = req.user._id;
-    // admin sees all pickups (no filter on user)
 
     if (status) filter.status = status;
 
     const pickups = await Pickup.find(filter)
       .populate('household', 'name phone')
       .populate('collector', 'name phone')
-      .populate('listing', 'title category quantity')
+      .populate('listing', 'title weight unit price')
       .sort({ scheduledDate: 1 });
 
     return res.status(200).json({ success: true, count: pickups.length, data: pickups });

@@ -27,6 +27,10 @@ const Navbar = () => {
           {['household','business','admin'].includes(user.role) && (
             <NavLink to="/my-listings" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>My Listings</NavLink>
           )}
+          {user.role === 'collector' && (
+            <NavLink to="/my-offers" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>My Offers</NavLink>
+          )}
+          <NavLink to="/my-pickups" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>My Pickups</NavLink>
           {user.role === 'admin' && (
             <NavLink to="/admin/categories" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Categories</NavLink>
           )}
