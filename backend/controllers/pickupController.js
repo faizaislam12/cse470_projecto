@@ -94,17 +94,13 @@ exports.reschedulePickup = async (req, res) => {
       return res.status(400).json({ success: false, message: `Cannot reschedule a ${pickup.status} pickup.` });
     }
 
-    if (scheduledDate) pickup.scheduledDate = new Date(scheduledDate);
-    if (timeSlot) pickup.timeSlot = timeSlot;
-    pickup.status = 'rescheduled';
-    pickup.statusHistory.push({
-      status: 'rescheduled',
-      note: reason || 'Pickup rescheduled',
-      changedBy: req.user._id,
-    });
+    const update = { $set: {}, $push: { statusHistory: { status: 'rescheduled', note: reason || 'Pickup rescheduled', changedBy: req.user._id } } };
+    if (scheduledDate) update.$set.scheduledDate = new Date(scheduledDate);
+    if (timeSlot) update.$set.timeSlot = timeSlot;
+    update.$set.status = 'rescheduled';
 
-    await pickup.save();
-    return res.status(200).json({ success: true, data: pickup });
+    const updated = await Pickup.findByIdAndUpdate(pickup._id, update, { runValidators: true, new: true });
+    return res.status(200).json({ success: true, data: updated });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to reschedule pickup.', error: err.message });
   }
@@ -136,11 +132,11 @@ exports.updatePickupStatus = async (req, res) => {
       });
     }
 
-    pickup.status = status;
-    pickup.statusHistory.push({ status, note, changedBy: req.user._id });
+    const update = { $set: {}, $push: { statusHistory: { status, note, changedBy: req.user._id } } };
+    update.$set.status = status;
 
     if (status === 'completed') {
-      pickup.completedAt = new Date();
+      update.$set.completedAt = new Date();
 
       const listing = await Listing.findById(pickup.listing).populate('category');
       const existingTx = await Transaction.findOne({ listing: pickup.listing, status: 'Completed' });
@@ -177,12 +173,12 @@ exports.updatePickupStatus = async (req, res) => {
       await Listing.findByIdAndUpdate(pickup.listing, { status: 'Completed' });
     }
     if (status === 'cancelled') {
-      pickup.cancelledReason = note || 'No reason provided';
+      update.$set.cancelledReason = note || 'No reason provided';
       await Listing.findByIdAndUpdate(pickup.listing, { status: 'Available' });
     }
 
-    await pickup.save();
-    return res.status(200).json({ success: true, data: pickup });
+    const updated = await Pickup.findByIdAndUpdate(pickup._id, update, { runValidators: true, new: true });
+    return res.status(200).json({ success: true, data: updated });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to update pickup status.', error: err.message });
   }
